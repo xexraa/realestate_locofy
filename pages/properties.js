@@ -2,13 +2,44 @@ import Head from "next/head";
 import "antd/dist/antd.min.css";
 import { Pagination, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { createClient } from "@supabase/supabase-js";
+
 import MainHeader from "../components/main-header";
 import PropertiesGridContainer from "../components/properties-grid-container";
 import Footer from "../components/footer";
+import { useEffect, useState } from "react";
 
-const defaultOrder = [];
+const defaultOrder = [
+  {
+    key: "1",
+    label: <a onClick={(e) => e.preventDefault()}>Popular Properties</a>,
+  },
+  {
+    key: "2",
+    label: <a onClick={(e) => e.preventDefault()}>Latest Properties</a>,
+  },
+  {
+    key: "3",
+    label: <a onClick={(e) => e.preventDefault()}>Recommended Properties</a>,
+  },
+];
 
 const PropertiesGridView = () => {
+  const client = createClient(
+    process.env.NEXT_PUBLIC_URL,
+    process.env.NEXT_PUBLIC_KEY
+  );
+
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      const result = await client.from("properties").select("*");
+      setProperties(result.data);
+    };
+    fetchProperties();
+  }, []);
+
   return (
     <>
       <Head>
@@ -46,7 +77,7 @@ const PropertiesGridView = () => {
               </Dropdown>
             </div>
           </div>
-          <PropertiesGridContainer />
+          <PropertiesGridContainer allProperties={properties} />
           <div className="flex flex-row items-end justify-center gap-[8px] text-center text-primary-500">
             <Pagination defaultCurrent={1} total={50} />
           </div>
