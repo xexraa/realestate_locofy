@@ -20,4 +20,4 @@ To preview and run the project on your device:
 
 **Suggestions Welcome**: If you have any suggestions or ideas for improving this project, please feel free to share them. Your input is valuable in enhancing the overall learning experience and functionality of the application.
 
-Feel free to reach out if you have any questions or need further assistance!
+Feel free to reach out if you have any questions or need further assistance.
